@@ -34,6 +34,15 @@ body {
     margin-bottom: 30px;
 }
 
+@media (max-width: 768px) {
+    .header h1, header p{
+        text-align: left; /* Alinhamento à esquerda em telas menores */
+    }
+    .header h1 {
+        line-height: 1.2; /* Ajuste a linha de altura conforme necessário */
+    }
+}
+
 /* Classe para aplicar o degradê ao texto */
 .text-gradient {
     background: linear-gradient(90deg, #8888E7, #64C2CE); /* Ajuste as cores do degradê */

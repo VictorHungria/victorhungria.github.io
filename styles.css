@@ -72,7 +72,7 @@ b {
 
 /* Seção de Problemas Comuns */
 .problemas {
-    background-color: #DCF1F9;
+    background-color: #64C2CE;
     padding: 60px 20px;
 }
 
@@ -94,7 +94,7 @@ b {
     background-color: #ffffff;
     border-color: #ffffff;
     border-radius: 30px;
-    color: #0F4357;
+    color: #22646D;
     padding: 20px;
     max-width: 300px;
     text-align: center;
@@ -146,7 +146,7 @@ b {
 
 .beneficios2 {
     align-items: center;
-    background-color: #8888E7;
+    background: linear-gradient(90deg, #8888E7, #64C2CE);
     padding: 60px 20px;
 }
 
@@ -161,8 +161,14 @@ b {
     color: #0F4357;
 }
 
+.beneficios2 p {
+    color: white;
+    font-size: 1.1rem;
+    text-align: left;
+}
+
 .beneficios2 ul {
-    list-style: none;
+    list-style:disc;
     padding: 0;
 }
 

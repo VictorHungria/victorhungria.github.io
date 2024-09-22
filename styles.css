@@ -3,9 +3,10 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
-    color: #333;
-    background-color: #f2f2f2;
+    color: #0F4357;
+    background-color: #f5f5f5;
     line-height: 1.6;
+    text-align: center;
 }
 
 .container {
@@ -16,90 +17,108 @@ body {
 
 /* Header */
 .header {
-    background-color: #003366;
-    color: #fff;
-    text-align: center;
+    color: #0F4357;
+    background-color: #ffffff;
     padding: 60px 20px;
 }
 
 .header h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2.5rem;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .header p {
     font-size: 1.2rem;
-    margin-bottom: 20px;
+    color: #5f6368;
+    margin-bottom: 30px;
 }
 
+/* Classe para aplicar o degradê ao texto */
+.text-gradient {
+    background: linear-gradient(90deg, #8888E7, #64C2CE); /* Ajuste as cores do degradê */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    font-weight: 700; /* Peso para destacar o texto */
+}
+
+
 .btn-primary {
-    background-color: #27ae60;
+    background-color: #E8A01A; /* Azul intenso */
     color: #fff;
     padding: 15px 30px;
     border: none;
     display: inline-block;
-    border-radius: 5px;
+    border-radius: 25px;
     text-decoration: none;
     font-weight: 600;
     transition: background-color 0.3s ease;
+    font-size: 1rem;
 }
 
 .btn-primary:hover {
-    background-color: #1e8449;
+    background-color: #8888E7;
 }
 
 /* Seção de Problemas Comuns */
 .problemas {
-    background-color: #fff;
+    background-color: #DCF1F9;
     padding: 60px 20px;
-    text-align: center;
 }
 
 .problemas h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2rem;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    color: #1a1a1a;
 }
 
 .cards {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
 }
 
 .card {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    color: #0F4357;
     padding: 20px;
     max-width: 300px;
     text-align: center;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card img {
-    max-width: 100px;
-    margin-bottom: 20px;
+    max-width: 80px;
 }
 
 .card h3 {
     font-family: 'Montserrat', sans-serif;
-    margin-bottom: 10px;
     font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.card p {
 }
 
 /* Seção de Benefícios */
 .beneficios {
-    background-color: #e9f5ff;
+    background-color: #ffffff;
     padding: 60px 20px;
-    text-align: center;
 }
 
 .beneficios h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2rem;
     margin-bottom: 20px;
+    color: #0F4357;
 }
 
 .beneficios ul {
@@ -110,19 +129,20 @@ body {
 .beneficios li {
     font-size: 1.1rem;
     margin: 10px 0;
+    color: #5f6368;
 }
 
 /* Formulário de Contato */
 .formulario {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 60px 20px;
-    text-align: center;
 }
 
 .formulario h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2rem;
     margin-bottom: 20px;
+    color: #0F4357;
 }
 
 .formulario form {
@@ -137,16 +157,19 @@ body {
 .formulario textarea {
     padding: 15px;
     border: 1px solid #ddd;
+    font-family: 'Montserrat', sans-serif;
     border-radius: 5px;
     font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
 }
 
 .formulario button {
-    background-color: #27ae60;
+    background-color: #E8A01A; /* Azul intenso */
     color: #fff;
     padding: 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 25px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -154,13 +177,13 @@ body {
 }
 
 .formulario button:hover {
-    background-color: #1e8449;
+    background-color: #185abc;
 }
 
 /* Footer */
 .footer {
-    background-color: #003366;
-    color: #fff;
-    text-align: center;
+    background-color: #f9f9f9;
+    color: #C0C0C0;
     padding: 20px 0;
+    font-size: 0.9rem;
 }

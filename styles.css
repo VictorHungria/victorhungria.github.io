@@ -9,17 +9,24 @@ body {
     text-align: center;
 }
 
+b {
+    color:#8888E7;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
+
 /* Header */
 .header {
+    height: 100vh;
+    display: flex; /* Adicione esta linha */
+    align-items: center;
     color: #0F4357;
     background-color: #ffffff;
-    padding: 60px 20px;
 }
 
 .header h1 {
@@ -34,14 +41,7 @@ body {
     margin-bottom: 30px;
 }
 
-@media (max-width: 768px) {
-    .header h1, header p{
-        text-align: left; /* Alinhamento à esquerda em telas menores */
-    }
-    .header h1 {
-        line-height: 1.2; /* Ajuste a linha de altura conforme necessário */
-    }
-}
+
 
 /* Classe para aplicar o degradê ao texto */
 .text-gradient {
@@ -92,6 +92,7 @@ body {
 
 .card {
     background-color: #ffffff;
+    border-color: #ffffff;
     border-radius: 30px;
     color: #0F4357;
     padding: 20px;
@@ -119,6 +120,7 @@ body {
 
 /* Seção de Benefícios */
 .beneficios {
+    align-items: center;
     background-color: #ffffff;
     padding: 60px 20px;
 }
@@ -137,14 +139,44 @@ body {
 
 .beneficios li {
     font-size: 1.1rem;
+    text-align: left;
     margin: 10px 0;
     color: #5f6368;
+}
+
+.beneficios2 {
+    align-items: center;
+    background-color: #8888E7;
+    padding: 60px 20px;
+}
+
+.beneficios2 b {
+    color: white;
+}
+
+.beneficios2 h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #0F4357;
+}
+
+.beneficios2 ul {
+    list-style: none;
+    padding: 0;
+}
+
+.beneficios2 li {
+    font-size: 1.1rem;
+    text-align: left;
+    margin: 10px 0;
+    color: white;
 }
 
 /* Formulário de Contato */
 .formulario {
     background-color: #ffffff;
-    padding: 60px 20px;
+    padding: 10px 20px;
 }
 
 .formulario h2 {
@@ -174,19 +206,7 @@ body {
 }
 
 .formulario button {
-    background-color: #E8A01A; /* Azul intenso */
-    color: #fff;
-    padding: 15px;
-    border: none;
-    border-radius: 25px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.formulario button:hover {
-    background-color: #185abc;
+    border-radius: 5px;
 }
 
 /* Footer */
@@ -195,4 +215,20 @@ body {
     color: #C0C0C0;
     padding: 20px 0;
     font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .header h1, header p{
+        text-align: left; /* Alinhamento à esquerda em telas menores */
+    }
+    .header h1 {
+        line-height: 1.2; /* Ajuste a linha de altura conforme necessário */
+    }
+    .problemas {
+        padding: 20px 0px;
+    }
+    .card {
+        width: 100%; /* O card preencherá toda a largura */
+        max-width: none; /* Remove o limite de largura máxima */
+    }
 }

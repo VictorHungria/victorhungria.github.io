@@ -55,7 +55,7 @@
         <div class="container">
             <h2 style="margin-bottom: 60px; color: white;">O que fazer em caso de voo atrasado?</h2>
             <p>É fundamental guardar todos os comprovantes e documentos relacionados à sua viagem. Isso inclui:</p>
-            <ul style="padding-left: 10%; padding-right: 10%;">
+            <ul style="padding-left: 5%; padding-right: 5%;">
                 <li>Notas de despesas com alimentação e comunicação.</li>
                 <li>Bilhetes aéreos e recibos de transporte e hospedagem.</li>
                 <li>Documentos que comprovem compromissos perdidos, como inscrições para congressos, reuniões ou conferências.</li>
@@ -72,13 +72,13 @@
         <div class="container">
             <h2 style="margin-top:60px; margin-bottom:60px;">Saiba mais sobre seus direitos.</h2>
             <h3>Conte-nos seu caso</h3>
-            <form style="margin-bottom:60px;">
-                <input type="text" placeholder="Nome Completo" required>
-                <input type="email" placeholder="E-mail" required>
-                <input type="tel" placeholder="Telefone" required>
-                <textarea placeholder="Descreva o problema do voo" required></textarea>
+            <form action="https://formspree.io/f/xrbzwyzy" method="POST" style="margin-bottom:60px;">
+                <input type="text" name="nome" placeholder="Nome Completo" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="tel" name="telefone" placeholder="Telefone" required>
+                <textarea name="mensagem" placeholder="Descreva o problema do voo" required></textarea>
                 <button type="submit" class="btn-primary">Enviar</button>
-            </form>
+            </form>            
         </div>
     </section>
     <!-- Footer -->

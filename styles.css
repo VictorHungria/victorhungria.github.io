@@ -13,6 +13,10 @@ b {
     color:#8888E7;
 }
 
+h3 {
+    font-size: 18.72px;
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -200,7 +204,8 @@ b {
 
 .flip-card img {
     margin: 30px 0px 0px 0px;
-    max-width: 80px;
+    max-height: 80px;
+    filter: invert(32%) sepia(26%) saturate(1069%) hue-rotate(142deg) brightness(91%) contrast(98%);
 }
 
 .flip-card {
@@ -247,6 +252,8 @@ b {
   color: white;
   transform: rotateY(180deg);
 }
+
+
 
 @media (max-width: 768px) {
     .header h1, header p{

@@ -124,6 +124,14 @@ h3 {
     color: white;
 }
 
+.carousel-item {
+    min-height: 650px; /* Ajuste a altura conforme necessário */
+}
+
+.carousel-item strong {
+    color: #f8ef99;
+}
+
 .beneficios2 h2 {
     font-family: 'Montserrat', sans-serif;
     font-size: 2rem;
@@ -254,6 +262,9 @@ h3 {
 /* Style the back side */
 .flip-card-back {
   background-color: #8888E7;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
   color: white;
   transform: rotateY(180deg);
 }

@@ -1,159 +1,517 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <!-- Meta Tags Essenciais -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gabriel Nogueira Sagrillo - Advocacia Criminal</title>
-    <meta name="description" content="Advocacia Criminal Interseccional & Customizada. Transformando justiça em realidade com transparência, competência e acessibilidade.">
-    
-    <!-- Meta Tags para SEO -->
-    <meta name="keywords" content="Advocacia Criminal, Gabriel Sagrillo, Justiça, Transparência, Competência, Acessibilidade, Direito Penal, Defesa Criminal">
-    <meta name="author" content="Gabriel Nogueira Sagrillo">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    
-    <!-- Link para o CSS Externo -->
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Fontes Google -->
-    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700&display=swap" rel="stylesheet">
-    
-    <!-- JavaScript -->
-    <script src="script.js" defer></script>
+    <title>Analisador de Incidência em Concursos v2</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for creating charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom styles for a better look and feel */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* --- Tree View Styles --- */
+        .tree-view ul {
+            padding-left: 1rem;
+            border-left: 1px solid #e5e7eb; /* gray-200 */
+        }
+        .tree-view li {
+            position: relative;
+            list-style: none;
+        }
+        .tree-view .topic-item {
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .tree-view .topic-item:hover {
+            background-color: #f3f4f6; /* gray-100 */
+        }
+        .tree-view .topic-item.selected {
+            background-color: #3b82f6; /* blue-500 */
+            color: white;
+            font-weight: 600;
+        }
+        /* Style for the expand/collapse toggle icon */
+        .tree-view .toggle {
+            width: 1rem;
+            text-align: center;
+            margin-right: 0.5rem;
+            transition: transform 0.2s ease-in-out;
+            color: #9ca3af; /* gray-400 */
+        }
+        .tree-view .topic-item.selected .toggle {
+            color: white;
+        }
+        /* Rotate icon when expanded */
+        .tree-view li[data-state='expanded'] > .topic-item .toggle {
+            transform: rotate(90deg);
+        }
+        /* Hide children of collapsed nodes */
+        .tree-view li[data-state='collapsed'] > ul {
+            display: none;
+        }
+
+        .tree-view .topic-name {
+            flex-grow: 1;
+        }
+        .tree-view .topic-incidence {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            background-color: #e5e7eb;
+            color: #374151;
+            margin-left: 1rem;
+            font-weight: 500;
+        }
+        .tree-view .topic-item.selected .topic-incidence {
+            background-color: #1e40af; /* blue-800 */
+            color: white;
+        }
+        
+        /* Custom file input button */
+        input[type="file"] { display: none; }
+        .custom-file-upload {
+            border: 2px dashed #d1d5db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 2rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s, border-color 0.2s;
+            text-align: center;
+        }
+        .custom-file-upload:hover {
+            background-color: #f9fafb;
+            border-color: #3b82f6;
+        }
+        
+        /* Ensure canvas is responsive */
+        #chart-container {
+            position: relative;
+            height: 75vh;
+            width: 100%;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Início do Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <a href="#">
-                    <img src="logo.png" alt="Logo Gabriel Nogueira Sagrillo">
-                </a>
-            </div>
-            <nav class="nav">
-                <ul>
-                    <li><a href="#sobre">Sobre</a></li>
-                    <li><a href="#servicos">Serviços</a></li>
-                    <li><a href="#parceiros">Parceiros</a></li>
-                    <li><a href="#contato">Contato</a></li>
-                </ul>
-            </nav>
-            <!-- Botão WhatsApp -->
-            <div class="contact-button">
-                <a href="https://wa.me/556293381708" target="_blank" class="btn-whatsapp">WhatsApp</a>
-            </div>
-        </div>
-    </header>
-    <!-- Fim do Header -->
-    
-    <!-- Seção Hero -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Transformando justiça em realidade com transparência, competência e acessibilidade</h1>
-            <p>Justiça que cabe no seu bolso, sem abrir mão da excelência.</p>
-            <a href="#contato" class="btn-primary">Agende sua Consulta</a>
-        </div>
-    </section>
-    
-    <!-- Seção Sobre Nós -->
-    <section id="sobre" class="about">
-        <div class="container">
-            <h2>Sobre Nós</h2>
-            <div class="about-content">
-                <div class="about-image">
-                    <img src="gabriel-sagrillo.jpg" alt="Gabriel Nogueira Sagrillo">
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">Analisador de Incidência em Concursos</h1>
+            <p class="text-gray-600 mt-2">Carregue um arquivo HTML para visualizar a distribuição dos tópicos.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Side: Chart Display -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
+                <h2 id="chart-title" class="text-xl font-semibold mb-4 text-center">Gráfico de Incidência</h2>
+                <div id="chart-container">
+                    <canvas id="incidenceChart"></canvas>
                 </div>
-                <div class="about-text">
-                    <p>Nosso escritório é guiado pelo compromisso de entregar justiça com ética, competência e acessibilidade. Acreditamos que cada pessoa merece ser ouvida e protegida pela lei, com total clareza em cada etapa do processo.</p>
-                    <p><strong>Gabriel Nogueira Sagrillo</strong>, OAB/GO: 72.064, é especialista em Advocacia Criminal Interseccional, comprometido com soluções personalizadas, eficientes e justas.</p>
+                 <div id="placeholder" class="flex flex-col items-center justify-center h-full text-gray-500">
+                    <i class="fas fa-chart-pie fa-4x mb-4"></i>
+                    <p class="text-lg">O gráfico aparecerá aqui após o carregamento do arquivo.</p>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- Seção Serviços -->
-    <section id="servicos" class="services">
-        <div class="container">
-            <h2>Nossos Serviços</h2>
-            <div class="service-list">
-                <div class="service-item">
-                    <i class="icon-criminal-law"></i>
-                    <h3>Defesa Criminal</h3>
-                    <p>Defesa em casos criminais com total competência e transparência.</p>
+
+            <!-- Right Side: Controls -->
+            <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md flex flex-col h-full">
+                <h2 class="text-xl font-semibold mb-4">Controles</h2>
+                
+                <!-- File Loader -->
+                <label for="html-file" id="file-upload-area" class="custom-file-upload text-gray-600 mb-4">
+                     <i class="fas fa-upload fa-2x mb-2"></i>
+                    <span id="file-name" class="font-semibold">Clique ou arraste para carregar arquivo HTML</span>
+                    <span class="text-sm">(.html, .htm, .txt)</span>
+                </label>
+                <input type="file" id="html-file" accept=".html,.htm,.txt">
+
+                <!-- Action Buttons -->
+                <div id="action-buttons" class="grid grid-cols-2 gap-3 mb-4 hidden">
+                    <button id="btn-top-level" class="w-full bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition"><i class="fas fa-home mr-2"></i>Geral</button>
+                    <button id="btn-change-chart" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition"><i class="fas fa-chart-bar mr-2"></i>Barras</button>
+                    <button id="btn-export-csv" class="col-span-2 w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition"><i class="fas fa-file-csv mr-2"></i>Exportar CSV</button>
                 </div>
-                <div class="service-item">
-                    <i class="icon-security"></i>
-                    <h3>Mandado de Segurança</h3>
-                    <p>Proteção dos seus direitos em situações de violação.</p>
+
+                <!-- Tree View Controls -->
+                 <div id="tree-controls" class="flex justify-between items-center border-b pb-2 mb-2 hidden">
+                    <h3 class="text-lg font-semibold">Tópicos</h3>
+                    <div class="space-x-2">
+                        <button id="btn-expand-all" title="Expandir Tudo" class="text-gray-500 hover:text-blue-600 transition"><i class="fas fa-plus-square"></i></button>
+                        <button id="btn-collapse-all" title="Recolher Tudo" class="text-gray-500 hover:text-blue-600 transition"><i class="fas fa-minus-square"></i></button>
+                    </div>
                 </div>
-                <div class="service-item">
-                    <i class="icon-consulting"></i>
-                    <h3>Consultoria Jurídica</h3>
-                    <p>Orientação jurídica clara e acessível para seus problemas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Seção Parceiros -->
-    <section id="parceiros" class="partners">
-        <div class="container">
-            <h2>Nossos Parceiros</h2>
-            <p>Trabalhamos com uma rede de parceiros especializados para atender as suas necessidades jurídicas de forma completa.</p>
-            <div class="partner-logos">
-                <!-- Substitua as imagens abaixo pelos logos dos parceiros -->
-                <img src="parceiro1.png" alt="Parceiro 1">
-                <img src="parceiro2.png" alt="Parceiro 2">
-                <img src="parceiro3.png" alt="Parceiro 3">
-            </div>
-        </div>
-    </section>
-    
-    <!-- Seção Contato -->
-    <section id="contato" class="contact">
-        <div class="container">
-            <h2>Contato</h2>
-            <p>Entre em contato com nosso escritório para discutir suas necessidades jurídicas.</p>
-            <div class="contact-info">
-                <p><strong>Email:</strong> <a href="mailto:gabrielsagrillo@egresso.ufg.br">gabrielsagrillo@egresso.ufg.br</a></p>
-                <p><strong>WhatsApp:</strong> <a href="https://wa.me/556293381708">(62) 9 9338-1708</a></p>
-                <p><strong>Endereço:</strong> R. Padre Marcelino Champagnata - Res. Village, Garavelo, Aparecida de Goiânia - GO, 74968-540</p>
-            </div>
-            <!-- Formulário de Contato -->
-            <form action="enviar.php" method="post" class="contact-form">
-                <input type="text" name="nome" placeholder="Seu Nome" required>
-                <input type="email" name="email" placeholder="Seu Email" required>
-                <input type="text" name="telefone" placeholder="Seu Telefone" required>
-                <textarea name="mensagem" placeholder="Sua Mensagem" required></textarea>
-                <button type="submit" class="btn-primary">Enviar Mensagem</button>
-            </form>
-        </div>
-    </section>
-    
-    <!-- Mapa do Google Maps -->
-    <section class="map">
-        <div class="container">
-            <h2>Localização</h2>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18...[INSIRA AQUI O CÓDIGO DE INCORPORAÇÃO DO GOOGLE MAPS]..." width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-        </div>
-    </section>
-    
-    <!-- Rodapé -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>© 2024 Gabriel Nogueira Sagrillo - Advocacia Criminal Interseccional & Customizada</p>
-                <div class="social-media">
-                    <a href="https://www.instagram.com/seu_perfil/" target="_blank"><i class="icon-instagram"></i></a>
-                    <a href="https://www.facebook.com/seu_perfil/" target="_blank"><i class="icon-facebook"></i></a>
-                    <!-- Adicione outras redes sociais conforme necessário -->
+
+                <!-- Tree View -->
+                <div id="tree-container" class="flex-grow overflow-y-auto bg-gray-50 p-3 rounded-md border min-h-[200px]">
+                    <div id="tree-placeholder" class="text-gray-500 text-center pt-8">
+                        A estrutura de tópicos aparecerá aqui.
+                    </div>
+                    <div class="tree-view" id="tree-view-root"></div>
                 </div>
             </div>
-        </div>
-    </footer>
-    
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Global state variables ---
+            let dataTree = [];
+            let currentChart = null;
+            let chartType = 'pie';
+            let maxLevel = 0;
+            let lastChartData = null; 
+
+            // --- DOM Element References ---
+            const fileInput = document.getElementById('html-file');
+            const fileUploadArea = document.getElementById('file-upload-area');
+            const fileNameDisplay = document.getElementById('file-name');
+            const treeViewRoot = document.getElementById('tree-view-root');
+            const chartCanvas = document.getElementById('incidenceChart');
+            const chartTitleEl = document.getElementById('chart-title');
+            const chartPlaceholder = document.getElementById('placeholder');
+            const treePlaceholder = document.getElementById('tree-placeholder');
+            const actionButtons = document.getElementById('action-buttons');
+            const treeControls = document.getElementById('tree-controls');
+            
+            // --- Buttons ---
+            const btnTopLevel = document.getElementById('btn-top-level');
+            const btnChangeChart = document.getElementById('btn-change-chart');
+            const btnExportCsv = document.getElementById('btn-export-csv');
+            const btnExpandAll = document.getElementById('btn-expand-all');
+            const btnCollapseAll = document.getElementById('btn-collapse-all');
+
+            // --- Utility Functions ---
+            const normalizeText = (text) => {
+                if (text === null || text === undefined) return "";
+                return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            };
+
+            // --- File Handling ---
+            fileUploadArea.addEventListener('click', () => fileInput.click());
+            fileUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); fileUploadArea.classList.add('bg-blue-50', 'border-blue-500'); });
+            fileUploadArea.addEventListener('dragleave', () => { fileUploadArea.classList.remove('bg-blue-50', 'border-blue-500'); });
+            fileUploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                fileUploadArea.classList.remove('bg-blue-50', 'border-blue-500');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    handleFileLoad({ target: fileInput });
+                }
+            });
+            fileInput.addEventListener('change', handleFileLoad);
+
+            function handleFileLoad(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                fileNameDisplay.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = (e) => parseHtmlContent(e.target.result);
+                reader.readAsText(file, 'UTF-8');
+            }
+
+            // --- HTML Parsing and Data Structuring ---
+            function parseHtmlContent(htmlContent) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+                const indiceHierarquico = doc.querySelector('.indice-hierarquico');
+
+                if (!indiceHierarquico) { alert("Erro: Não foi possível encontrar a div 'indice-hierarquico' no arquivo."); return; }
+                const rootUl = indiceHierarquico.querySelector('ul.indice-conteudo');
+                if (!rootUl) { alert("Erro: Não foi possível encontrar a lista de tópicos 'ul.indice-conteudo'."); return; }
+
+                dataTree = extractDataRecursive(rootUl);
+                maxLevel = calculateMaxLevel(dataTree);
+                
+                renderTreeView(dataTree, treeViewRoot);
+                showTopLevelChart();
+
+                // Show UI elements that were hidden
+                treePlaceholder.style.display = 'none';
+                actionButtons.classList.remove('hidden');
+                treeControls.classList.remove('hidden');
+            }
+            
+            function extractDataRecursive(parentElement) {
+                const children = [];
+                parentElement.querySelectorAll(':scope > li').forEach(li => {
+                    const assuntoDiv = li.querySelector('.assunto-indice');
+                    if (assuntoDiv) {
+                        const nomeEl = assuntoDiv.querySelector('.assunto-nome-conteudo');
+                        const nome = normalizeText(nomeEl ? nomeEl.textContent.trim() : 'Sem nome');
+
+                        const quantidadeEl = assuntoDiv.querySelector('.indice-porcentagem');
+                        let incidencia = 0;
+                        if (quantidadeEl) {
+                            const parts = quantidadeEl.textContent.trim().match(/^(\d+)/);
+                            if (parts) incidencia = parseInt(parts[1], 10);
+                        }
+                        
+                        const node = { name: nome, incidence: incidencia, children: [] };
+                        const nestedUl = li.querySelector('ul');
+                        if (nestedUl) {
+                            node.children = extractDataRecursive(nestedUl);
+                        }
+                        children.push(node);
+                    }
+                });
+                // *** NEW: Sort children by incidence in descending order ***
+                return children.sort((a, b) => b.incidence - a.incidence);
+            }
+
+            // --- Tree View Rendering ---
+            function renderTreeView(nodes, parentElement, path = '') {
+                parentElement.innerHTML = ''; 
+                const ul = document.createElement('ul');
+                nodes.forEach((node, index) => {
+                    const currentPath = path ? `${path}.${index}` : `${index}`;
+                    const li = document.createElement('li');
+                    
+                    const hasChildren = node.children && node.children.length > 0;
+                    // *** NEW: Start collapsed if it has children ***
+                    if (hasChildren) {
+                        li.dataset.state = 'collapsed';
+                    }
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'topic-item';
+                    itemDiv.dataset.path = currentPath;
+
+                    // *** NEW: Add toggle icon ***
+                    const toggleSpan = document.createElement('span');
+                    toggleSpan.className = 'toggle';
+                    if (hasChildren) {
+                        toggleSpan.innerHTML = '<i class="fas fa-chevron-right fa-xs"></i>';
+                    }
+                    
+                    const nameSpan = document.createElement('span');
+                    nameSpan.className = 'topic-name';
+                    nameSpan.textContent = node.name;
+                    
+                    const incidenceSpan = document.createElement('span');
+                    incidenceSpan.className = 'topic-incidence';
+                    incidenceSpan.textContent = node.incidence;
+                    
+                    itemDiv.appendChild(toggleSpan); // Add icon
+                    itemDiv.appendChild(nameSpan);
+                    itemDiv.appendChild(incidenceSpan);
+                    li.appendChild(itemDiv);
+
+                    if (hasChildren) {
+                        const nestedUl = document.createElement('ul');
+                        renderTreeView(node.children, nestedUl, currentPath);
+                        li.appendChild(nestedUl);
+                    }
+                    ul.appendChild(li);
+                });
+                parentElement.appendChild(ul);
+            }
+            
+            // --- Charting ---
+            function generateChart(nodes, title) {
+                if (!nodes || nodes.length === 0) {
+                    chartPlaceholder.style.display = 'flex';
+                    chartCanvas.style.display = 'none';
+                    chartTitleEl.textContent = "Sem dados para exibir";
+                    lastChartData = null;
+                    return;
+                }
+
+                chartPlaceholder.style.display = 'none';
+                chartCanvas.style.display = 'block';
+
+                const labels = nodes.map(n => n.name);
+                const incidencias = nodes.map(n => n.incidence);
+                lastChartData = { nodes, title }; 
+
+                if (currentChart) {
+                    currentChart.destroy();
+                }
+                
+                chartTitleEl.textContent = title;
+                const ctx = chartCanvas.getContext('2d');
+                
+                const config = {
+                    type: chartType,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Incidência',
+                            data: incidencias,
+                            backgroundColor: generateColors(incidencias.length),
+                            borderColor: '#ffffff',
+                            borderWidth: chartType === 'pie' ? 2 : 0,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: chartType === 'pie' ? 'top' : 'none' },
+                            title: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) label += ': ';
+
+                                        // *** FIX: Correctly parse value for bar vs pie chart ***
+                                        let value;
+                                        if (context.chart.config.type === 'bar') {
+                                            value = context.parsed.x;
+                                        } else {
+                                            value = context.parsed;
+                                        }
+
+                                        if (value !== null) {
+                                            const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                                            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                            label += `${value} (${percentage}%)`;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                    }
+                };
+
+                if (chartType === 'bar') {
+                    config.options.indexAxis = 'y'; // Horizontal bar chart
+                    config.options.scales = {
+                        x: { beginAtZero: true, title: { display: true, text: 'Incidência' } },
+                        y: { ticks: { autoSkip: false } }
+                    };
+                }
+
+                currentChart = new Chart(ctx, config);
+            }
+
+            function generateColors(numColors) {
+                const colors = ['#3b82f6', '#10b981', '#ef4444', '#f97316', '#8b5cf6', '#eab308', '#22c55e', '#ec4899', '#6366f1', '#06b6d4', '#d946ef', '#f59e0b'];
+                return Array.from({ length: numColors }, (_, i) => colors[i % colors.length]);
+            }
+            
+            function showTopLevelChart() {
+                document.querySelectorAll('.topic-item.selected').forEach(el => el.classList.remove('selected'));
+                generateChart(dataTree, "Incidência Geral (Nível 0)");
+            }
+
+            // --- Event Listeners ---
+            treeViewRoot.addEventListener('click', (e) => {
+                const itemDiv = e.target.closest('.topic-item');
+                if (!itemDiv) return;
+
+                const li = itemDiv.parentElement;
+                
+                // --- NEW: Expand/Collapse logic ---
+                const isToggleClick = e.target.closest('.toggle');
+                if (li.dataset.state && isToggleClick) {
+                     li.dataset.state = li.dataset.state === 'expanded' ? 'collapsed' : 'expanded';
+                     return; // Don't regenerate chart on toggle click
+                }
+
+                document.querySelectorAll('.topic-item.selected').forEach(el => el.classList.remove('selected'));
+                itemDiv.classList.add('selected');
+
+                const path = itemDiv.dataset.path.split('.').map(Number);
+                let node = { children: dataTree };
+                path.forEach(index => { node = node.children[index]; });
+                
+                generateChart(node.children, node.name);
+            });
+
+            btnTopLevel.addEventListener('click', showTopLevelChart);
+
+            btnChangeChart.addEventListener('click', () => {
+                chartType = chartType === 'pie' ? 'bar' : 'pie';
+                if (chartType === 'bar') {
+                    btnChangeChart.innerHTML = '<i class="fas fa-chart-pie mr-2"></i>Pizza';
+                    btnChangeChart.classList.replace('bg-indigo-600', 'bg-purple-600');
+                    btnChangeChart.classList.replace('hover:bg-indigo-700', 'hover:bg-purple-700');
+                } else {
+                    btnChangeChart.innerHTML = '<i class="fas fa-chart-bar mr-2"></i>Barras';
+                    btnChangeChart.classList.replace('bg-purple-600', 'bg-indigo-600');
+                    btnChangeChart.classList.replace('hover:bg-purple-700', 'hover:bg-indigo-700');
+                }
+                
+                if (lastChartData) {
+                    generateChart(lastChartData.nodes, lastChartData.title);
+                }
+            });
+
+            // --- NEW: Expand/Collapse All Listeners ---
+            btnExpandAll.addEventListener('click', () => {
+                treeViewRoot.querySelectorAll("li[data-state]").forEach(li => li.dataset.state = 'expanded');
+            });
+            btnCollapseAll.addEventListener('click', () => {
+                treeViewRoot.querySelectorAll("li[data-state]").forEach(li => li.dataset.state = 'collapsed');
+            });
+
+            btnExportCsv.addEventListener('click', exportCsv);
+            
+            // --- CSV Export (Unchanged logic, but helper function is needed) ---
+            function calculateMaxLevel(nodes, level = 1) {
+                let max = level;
+                for (const node of nodes) {
+                    if (node.children && node.children.length > 0) {
+                        max = Math.max(max, calculateMaxLevel(node.children, level + 1));
+                    }
+                }
+                return max;
+            }
+
+            function exportCsv() {
+                if (dataTree.length === 0) { alert("Não há dados para exportar."); return; }
+                
+                let csvContent = "data:text/csv;charset=utf-8,";
+                const headerLevels = Array.from({ length: maxLevel }, (_, i) => `Nível ${i + 1}`).join(',');
+                csvContent += `Nível,${headerLevels},Quantidade\n`;
+
+                const rows = [];
+                function buildCsvRows(nodes, level, path) {
+                    nodes.forEach(node => {
+                        const row = new Array(maxLevel + 2).fill('');
+                        row[0] = level;
+                        path.forEach((p, i) => { row[i + 1] = `"${p.replace(/"/g, '""')}"`; });
+                        row[level] = `"${node.name.replace(/"/g, '""')}"`;
+                        row[maxLevel + 1] = node.incidence;
+                        rows.push(row.join(','));
+
+                        if (node.children && node.children.length > 0) {
+                            buildCsvRows(node.children, level + 1, [...path, node.name]);
+                        }
+                    });
+                }
+
+                buildCsvRows(dataTree, 1, []);
+                csvContent += rows.join('\n');
+                
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "analise_incidencia.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    </script>
 </body>
 </html>

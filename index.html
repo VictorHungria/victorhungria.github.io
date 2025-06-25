@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisador de Incidência em Concursos v2</title>
-    <!-- Tailwind CSS for styling -->
+    <title>Analisador de Incidência em Concursos v2.1</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js for creating charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Custom styles for a better look and feel */
@@ -116,7 +113,6 @@
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Left Side: Chart Display -->
             <div class="lg:col-span-2 bg-white p-6 rounded-lg shadow-md">
                 <h2 id="chart-title" class="text-xl font-semibold mb-4 text-center">Gráfico de Incidência</h2>
                 <div id="chart-container">
@@ -128,11 +124,9 @@
                 </div>
             </div>
 
-            <!-- Right Side: Controls -->
             <div class="lg:col-span-1 bg-white p-6 rounded-lg shadow-md flex flex-col h-full">
                 <h2 class="text-xl font-semibold mb-4">Controles</h2>
                 
-                <!-- File Loader -->
                 <label for="html-file" id="file-upload-area" class="custom-file-upload text-gray-600 mb-4">
                      <i class="fas fa-upload fa-2x mb-2"></i>
                     <span id="file-name" class="font-semibold">Clique ou arraste para carregar arquivo HTML</span>
@@ -140,15 +134,13 @@
                 </label>
                 <input type="file" id="html-file" accept=".html,.htm,.txt">
 
-                <!-- Action Buttons -->
                 <div id="action-buttons" class="grid grid-cols-2 gap-3 mb-4 hidden">
                     <button id="btn-top-level" class="w-full bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition"><i class="fas fa-home mr-2"></i>Geral</button>
                     <button id="btn-change-chart" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition"><i class="fas fa-chart-bar mr-2"></i>Barras</button>
                     <button id="btn-export-csv" class="col-span-2 w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition"><i class="fas fa-file-csv mr-2"></i>Exportar CSV</button>
                 </div>
 
-                <!-- Tree View Controls -->
-                 <div id="tree-controls" class="flex justify-between items-center border-b pb-2 mb-2 hidden">
+                <div id="tree-controls" class="flex justify-between items-center border-b pb-2 mb-2 hidden">
                     <h3 class="text-lg font-semibold">Tópicos</h3>
                     <div class="space-x-2">
                         <button id="btn-expand-all" title="Expandir Tudo" class="text-gray-500 hover:text-blue-600 transition"><i class="fas fa-plus-square"></i></button>
@@ -156,7 +148,6 @@
                     </div>
                 </div>
 
-                <!-- Tree View -->
                 <div id="tree-container" class="flex-grow overflow-y-auto bg-gray-50 p-3 rounded-md border min-h-[200px]">
                     <div id="tree-placeholder" class="text-gray-500 text-center pt-8">
                         A estrutura de tópicos aparecerá aqui.
@@ -248,6 +239,9 @@
                 treeControls.classList.remove('hidden');
             }
             
+            // ===================================================================
+            //  FUNÇÃO ATUALIZADA PARA SER MAIS INTELIGENTE
+            // ===================================================================
             function extractDataRecursive(parentElement) {
                 const children = [];
                 parentElement.querySelectorAll(':scope > li').forEach(li => {
@@ -256,12 +250,25 @@
                         const nomeEl = assuntoDiv.querySelector('.assunto-nome-conteudo');
                         const nome = normalizeText(nomeEl ? nomeEl.textContent.trim() : 'Sem nome');
 
-                        const quantidadeEl = assuntoDiv.querySelector('.indice-porcentagem');
+                        // --- INÍCIO DA LÓGICA INTELIGENTE ---
+                        // Tenta primeiro o seletor original '.indice-porcentagem'
+                        let quantidadeEl = assuntoDiv.querySelector('.indice-porcentagem');
+                        
+                        // Se não encontrar, tenta o seletor do novo arquivo, a classe '.pagina'
+                        if (!quantidadeEl) {
+                            quantidadeEl = assuntoDiv.querySelector('.pagina');
+                        }
+                        
                         let incidencia = 0;
                         if (quantidadeEl) {
+                            // A lógica para extrair o número continua a mesma,
+                            // pegando apenas os dígitos do texto.
                             const parts = quantidadeEl.textContent.trim().match(/^(\d+)/);
-                            if (parts) incidencia = parseInt(parts[1], 10);
+                            if (parts) {
+                                incidencia = parseInt(parts[1], 10);
+                            }
                         }
+                        // --- FIM DA LÓGICA INTELIGENTE ---
                         
                         const node = { name: nome, incidence: incidencia, children: [] };
                         const nestedUl = li.querySelector('ul');
@@ -271,7 +278,7 @@
                         children.push(node);
                     }
                 });
-                // *** NEW: Sort children by incidence in descending order ***
+                // Ordena os filhos pela incidência (quantidade) em ordem decrescente
                 return children.sort((a, b) => b.incidence - a.incidence);
             }
 
@@ -284,7 +291,6 @@
                     const li = document.createElement('li');
                     
                     const hasChildren = node.children && node.children.length > 0;
-                    // *** NEW: Start collapsed if it has children ***
                     if (hasChildren) {
                         li.dataset.state = 'collapsed';
                     }
@@ -293,7 +299,6 @@
                     itemDiv.className = 'topic-item';
                     itemDiv.dataset.path = currentPath;
 
-                    // *** NEW: Add toggle icon ***
                     const toggleSpan = document.createElement('span');
                     toggleSpan.className = 'toggle';
                     if (hasChildren) {
@@ -308,7 +313,7 @@
                     incidenceSpan.className = 'topic-incidence';
                     incidenceSpan.textContent = node.incidence;
                     
-                    itemDiv.appendChild(toggleSpan); // Add icon
+                    itemDiv.appendChild(toggleSpan);
                     itemDiv.appendChild(nameSpan);
                     itemDiv.appendChild(incidenceSpan);
                     li.appendChild(itemDiv);
@@ -370,8 +375,7 @@
                                     label: function(context) {
                                         let label = context.dataset.label || '';
                                         if (label) label += ': ';
-
-                                        // *** FIX: Correctly parse value for bar vs pie chart ***
+                                        
                                         let value;
                                         if (context.chart.config.type === 'bar') {
                                             value = context.parsed.x;
@@ -420,7 +424,6 @@
 
                 const li = itemDiv.parentElement;
                 
-                // --- NEW: Expand/Collapse logic ---
                 const isToggleClick = e.target.closest('.toggle');
                 if (li.dataset.state && isToggleClick) {
                      li.dataset.state = li.dataset.state === 'expanded' ? 'collapsed' : 'expanded';
@@ -455,8 +458,7 @@
                     generateChart(lastChartData.nodes, lastChartData.title);
                 }
             });
-
-            // --- NEW: Expand/Collapse All Listeners ---
+            
             btnExpandAll.addEventListener('click', () => {
                 treeViewRoot.querySelectorAll("li[data-state]").forEach(li => li.dataset.state = 'expanded');
             });
@@ -466,7 +468,7 @@
 
             btnExportCsv.addEventListener('click', exportCsv);
             
-            // --- CSV Export (Unchanged logic, but helper function is needed) ---
+            // --- CSV Export ---
             function calculateMaxLevel(nodes, level = 1) {
                 let max = level;
                 for (const node of nodes) {
